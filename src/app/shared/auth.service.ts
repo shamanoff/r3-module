@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Router} from '@angular/router';
-import {AngularFireDatabase, FirebaseListObservable} from 'angularfire2/database';
+import {AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable} from 'angularfire2/database';
 import {AngularFireAuth} from 'angularfire2/auth';
 import {User} from './user';
 import {CountService} from "../counter/count.service";
@@ -10,8 +10,7 @@ import {CountService} from "../counter/count.service";
 @Injectable()
 export class AuthService {
 
-  // private errorSubject: Subject<any>;
-
+currentUserName: string;
 
   // loginError: string;
   user$: FirebaseListObservable<User[]>;
@@ -50,8 +49,15 @@ export class AuthService {
     ;
 
   }
+//// Get User by Id////
 
-
+/*  getUserName(){
+    const path = `users/${this.currentUserId}`; // Endpoint on firebase
+    const user = this._db.object(path);
+    user.map(user => this.currentUserName = user.userName );
+    console.log(this.currentUserName + ' Test');
+    return this.currentUserName;
+  }*/
 //// Get Users ////
 
   getUsers() {

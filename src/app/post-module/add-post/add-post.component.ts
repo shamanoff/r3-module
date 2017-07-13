@@ -1,18 +1,21 @@
-import {Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {PostsService} from '../posts/posts.service';
 import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {AuthService} from '../../shared/auth.service';
 import {User} from "../../shared/user";
+import {AngularFireAuth} from 'angularfire2/auth';
+import {AngularFireDatabase} from 'angularfire2/database';
 
 @Component({
   selector: 'add-post',
   templateUrl: './add-post.component.html',
   styleUrls: ['./add-post.component.scss']
 })
-export class AddPostComponent implements OnInit {
+export class AddPostComponent implements OnInit, AfterViewInit {
   postForm: FormGroup;
-  currentUser: User;
-  maxMsg = '';
+  currentUserName: string;
+  currenUserId: string;
+  lengthErrorMessage = '';
   private validationMessages = {
     required: 'Это поле обязательно.',
     minlength: 'Введите больше символов.',
@@ -22,11 +25,15 @@ export class AddPostComponent implements OnInit {
 
   constructor(private _ps: PostsService,
               private _fb: FormBuilder,
-              private _authServ: AuthService) {
+              private _authServ: AuthService,
+              private _db: AngularFireDatabase,
+  ) {
   }
 
   ngOnInit() {
-    this.currentUser = this._authServ.currentUser;
+
+    this.currenUserId = this._authServ.currentUserId;
+    // this.currentUserName = this._authServ.getUserName();
     this.postForm = this._fb.group({
       title: ['', [Validators.maxLength(100)]],
       text: ['', [Validators.maxLength(600)]],
@@ -60,36 +67,48 @@ export class AddPostComponent implements OnInit {
   }
 
   setMaxMsg(c: AbstractControl): void {
-    this.maxMsg = '';
+    this.lengthErrorMessage = '';
     if (c.errors) {
-      this.maxMsg = Object.keys(c.errors)
+      this.lengthErrorMessage = Object.keys(c.errors)
         .map(key => this.validationMessages[key])
         .join(' ');
       console.log(Object.keys(c.errors));
     }
   }
 
+  ngAfterViewInit(): void {
+    this.getUser();
 
+  }
   onSubmit(formData): void {
 
     const created_at = new Date().toString();
 
 
     const data = {
-      author: this.currentUser.userName,
+      author: this.currentUserName,
       authorId: this._authServ.currentUserId,
       date: created_at,
-      title: formData.value.street,
-      text: formData.value.street,
-      url: formData.value.street,
-      pic: formData.value.street,
+      title: formData.value.title,
+      text: formData.value.text,
+      url: formData.value.url,
+      pic: formData.value.pic,
     };
-    if (formData.valid && formData) {
+    if (formData.valid) {
       console.log('valid');
+      console.log(this.postForm.getRawValue());
+      console.log(this.currentUserName + ' UserName');
+      console.log(this.currenUserId + ' id');
       this._ps.addPost(data)
         .catch(error => console.log(error));
 
     } else console.log('not valid' + formData.valid);
     formData.reset();
+  }
+
+  getUser() {
+    this._db.object('/users/' + this.currenUserId).subscribe(
+      user => this.currentUserName = user.userName
+    );
   }
 }
