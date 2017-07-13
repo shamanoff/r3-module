@@ -4,6 +4,7 @@ import {CommonModule} from '@angular/common';
 import {PostsComponent} from './posts/posts.component';
 import {AddPostComponent} from './add-post/add-post.component';
 import {ReactiveFormsModule} from '@angular/forms';
+import {ReversePipe} from '../shared/reverse.pipe';
 
 @NgModule({
   imports: [
@@ -13,6 +14,7 @@ import {ReactiveFormsModule} from '@angular/forms';
   declarations: [
     PostsComponent,
     AddPostComponent,
+    ReversePipe
   ],
   exports: [
     CommonModule,

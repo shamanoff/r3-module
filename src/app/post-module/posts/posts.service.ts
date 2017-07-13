@@ -16,10 +16,10 @@ export class PostsService {
       query: {
         // limitToLast: (10),
 
-        // orderByChild: 'category',
+        orderByChild: 'date',
         // equalTo: category
       }
-    }) as
+    })as
       FirebaseListObservable<Post[]>;
     return this.post$;
   }

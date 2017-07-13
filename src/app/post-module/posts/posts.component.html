@@ -1,4 +1,4 @@
-<div *ngFor="let post of userPost$ | async">
+<div *ngFor="let post of userPost$ | async | reverse ">
   <div class="pic" [ngStyle]="{'background-image': 'url(' + post.pic + ')'}"></div>
   <h4>{{post.title}}</h4>
   <p>{{post.author}} | {{ post.date}}</p>
