@@ -1,0 +1,43 @@
+<div class="row align-center container">
+  <div class="small-12 medium-6 columns">
+    <div class="card">
+      <h2>Вход</h2>
+
+      <!--form-->
+      <form #formData='ngForm' novalidate
+            (ngSubmit)="onSubmit(formData)"
+            [formGroup]="loginForm">
+        <!--email-->
+        <div class="fields">
+          <input [ngClass]="{'has-error': emailMessage}" class="form-control"
+                 id="emailId"
+                 type="email"
+                 placeholder="Почта"
+                 formControlName="email">
+
+          <span class="error" *ngIf="emailMessage">{{ emailMessage }}</span>
+          <span class="error" *ngIf="notFound">{{ emailUserNotFound }}</span>
+        </div>
+
+        <!--password-->
+        <div class="fields">
+          <input [ngClass]="{'has-error': passwordMessage}" class="form-control"
+                 id="passwordlId"
+                 type="password"
+                 placeholder="Пароль"
+                 formControlName="password">
+
+          <span class="error" *ngIf="passwordMessage">{{ passwordMessage  }}</span>
+          <span class="error" *ngIf="error">{{ error.message }}</span>
+          <span class="error" *ngIf="invalid">{{ passwordInvalid }}</span>
+        </div>
+        <!--button-->
+        <div class="fields">
+          <button type="submit" class="button expanded" [disabled]="!loginForm.valid && loginForm.touched">
+            Войти
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
