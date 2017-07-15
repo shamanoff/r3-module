@@ -14,10 +14,10 @@
   <div>
     <label for="text">Текст</label>
     <span class="error" *ngIf="lengthErrorMessage">{{ lengthErrorMessage }}</span>
-    <input [ngClass]="{'has-error': lengthErrorMessage}" class="form-control"
+    <textarea [ngClass]="{'has-error': lengthErrorMessage}" class="form-control"
            type="text"
            formControlName="text"
-           id="text">
+              id="text"></textarea>
   </div>
   <div>
     <label for="url">Ссылка на публикацию</label>

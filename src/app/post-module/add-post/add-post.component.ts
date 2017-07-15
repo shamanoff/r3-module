@@ -2,8 +2,7 @@ import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {PostsService} from '../posts/posts.service';
 import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {AuthService} from '../../shared/auth.service';
-import {User} from "../../shared/user";
-import {AngularFireAuth} from 'angularfire2/auth';
+
 import {AngularFireDatabase} from 'angularfire2/database';
 
 @Component({

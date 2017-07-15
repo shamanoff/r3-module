@@ -1,7 +1,11 @@
-<div *ngFor="let post of userPost$ | async | reverse ">
-  <div class="pic" [ngStyle]="{'background-image': 'url(' + post.pic + ')'}"></div>
-  <h4>{{post.title}}</h4>
-  <p>{{post.author}} | {{ post.date}}</p>
-  <p>{{post.text}}</p>
-  <a href="{{post.url}}">Полный текст</a>
+<div *ngFor="let post of (userPost$ | async) | reverse " >
+  <div *ngIf="post.pic"  class="pic" [ngStyle]="{'background-image': 'url(' + post.pic + ')'}"></div>
+  <h4 *ngIf="post.title" >{{post.title}}</h4>
+  <p *ngIf="post.author" >{{post.author}} | {{ post.date | date:'d MMM y | H:mm:ss'}}</p>
+  <p *ngIf="post.text"> {{post.text}}</p>
+  <a *ngIf="post.url"  href="{{post.url}}">Полный текст</a>
+  <span *ngIf="post.authorId === currentUserId" class="float-right " [style.cursor]="'pointer'"><i  class="fi-trash" (click)="onDelete(post)"> Удалить </i> | <i  class="fi-pencil"> Редактировать</i></span>
+  <!--<input *ngIf="post.authorId === currentUserId" type="button" class="button hollow" value="Удалить">-->
+  <hr>
 </div>
+
